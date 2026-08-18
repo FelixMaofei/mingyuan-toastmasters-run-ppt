@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>明源云 AI Lab 头马演讲俱乐部 | 匿名示例</title>
+  <style>
+    /* ===========================================
+       THEME TOKENS
+       =========================================== */
+    :root {
+      --stage-bg: #031722;
+      --slide-bg: #fffaf0;
+      --blue: #004165;
+      --blue-bright: #0a739f;
+      --maroon: #772432;
+      --maroon-deep: #3b0104;
+      --yellow: #f2df74;
+      --paper: #fffaf0;
+      --paper-2: #f3eee3;
+      --ink: #06233a;
+      --muted: #63717b;
+      --line: rgba(0, 65, 101, .18);
+      --font-display: "Noto Serif SC", "Songti SC", "STSong", serif;
+      --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --ease-out: cubic-bezier(.16, 1, .3, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    /* ===========================================
+       FIXED 16:9 STAGE: MANDATORY BASE STYLES
+       Slides are authored at 1920×1080 and scaled as a whole.
+       =========================================== */
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--stage-bg, #000);
+    }
+
+    .deck-viewport {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background: var(--stage-bg, #000);
+    }
+
+    .deck-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      transform-origin: 0 0;
+      background: var(--slide-bg, #fff);
+      box-shadow: 0 32px 120px rgba(0, 0, 0, .38);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      display: block;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      background: var(--slide-bg, #fff);
+    }
+
+    .slide.active,
+    .slide.visible {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 1;
+    }
+
+    img,
+    video,
+    canvas,
+    svg {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .deck-controls {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      z-index: 1000;
+    }
+
+    @media print {
+      html,
+      body {
+        width: 1920px;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+      }
+
+      .deck-viewport {
+        position: static;
+        overflow: visible;
+        background: #fff;
+      }
+
+      .deck-stage {
+        position: static;
+        width: auto;
+        height: auto;
+        transform: none !important;
+        background: none;
+      }
+
+      .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+      }
+
+      .slide:last-child {
+        break-after: auto;
+        page-break-after: auto;
+      }
+
+      .deck-controls,
+      .edit-hotzone,
+      .edit-toggle,
+      .progress {
+        display: none !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .2s !important;
+      }
+    }
+
+    /* ===========================================
+       SLIDE ATMOSPHERE
+       =========================================== */
+    body {
+      color: var(--ink);
+      font-family: var(--font-body);
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 88% 18%, rgba(242, 223, 116, .26), transparent 23%),
+        linear-gradient(138deg, rgba(255, 255, 255, .92), rgba(255, 250, 240, .98));
+    }
+
+    .slide.dark::before {
+      background:
+        radial-gradient(circle at 82% 20%, rgba(242, 223, 116, .18), transparent 22%),
+        radial-gradient(circle at 18% 84%, rgba(0, 96, 148, .35), transparent 28%),
+        linear-gradient(145deg, #031722 0%, #004165 60%, #042c43 100%);
+    }
+
+    .ai-lattice {
+      position: absolute;
+      z-index: 1;
+      top: -120px;
+      right: -80px;
+      width: 760px;
+      height: 760px;
+      border: 1px solid rgba(0, 65, 101, .14);
+      border-radius: 50%;
+      background-image:
+        linear-gradient(rgba(0, 65, 101, .08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 65, 101, .08) 1px, transparent 1px);
+      background-size: 48px 48px;
+      transform: rotate(12deg);
+      -webkit-mask-image: radial-gradient(circle, #000 0 56%, transparent 76%);
+      mask-image: radial-gradient(circle, #000 0 56%, transparent 76%);
+    }
+
+    .dark .ai-lattice {
+      border-color: rgba(242, 223, 116, .18);
+      background-image:
+        linear-gradient(rgba(242, 223, 116, .08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(242, 223, 116, .08) 1px, transparent 1px);
+    }
+
+    .ai-lattice::before,
+    .ai-lattice::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: var(--maroon);
+      box-shadow:
+        170px 90px 0 var(--yellow),
+        330px 250px 0 var(--blue-bright),
+        110px 360px 0 var(--maroon),
+        420px 440px 0 var(--yellow);
+    }
+
+    .ai-lattice::before {
+      left: 112px;
+      top: 102px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .ai-lattice::after {
+      left: 240px;
+      top: 180px;
+      width: 8px;
+      height: 8px;
+      opacity: .7;
+    }
+
+    .brand-rail {
+      position: absolute;
+      z-index: 2;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 22px;
+      background: linear-gradient(180deg, var(--maroon), var(--yellow), var(--blue));
+    }
+
+    .brand {
+      position: absolute;
+      z-index: 4;
+      top: 54px;
+      left: 82px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--blue);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+
+    .dark .brand { color: rgba(255, 255, 255, .82); }
+
+    .brand-spark {
+      width: 13px;
+      height: 13px;
+      border-radius: 3px;
+      background: var(--yellow);
+      box-shadow: 16px 0 0 var(--maroon), 8px 14px 0 var(--blue-bright);
+      transform: rotate(45deg);
+    }
+
+    .slide-content {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      padding: 126px 132px 132px 148px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      color: var(--maroon);
+      font-size: 28px;
+      font-weight: 850;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .dark .eyebrow { color: var(--yellow); }
+
+    h1,
+    h2,
+    p { margin: 0; }
+
+    h1 {
+      max-width: 1320px;
+      margin-top: 28px;
+      font-family: var(--font-display);
+      font-size: 116px;
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -.035em;
+    }
+
+    .dark h1 { color: #fff; }
+
+    .lead {
+      max-width: 1120px;
+      margin-top: 32px;
+      color: var(--muted);
+      font-size: 38px;
+      line-height: 1.45;
+    }
+
+    .dark .lead { color: rgba(255, 255, 255, .7); }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity .62s var(--ease-out), transform .62s var(--ease-out);
+    }
+
+    .slide.visible .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal:nth-child(2) { transition-delay: .08s; }
+    .reveal:nth-child(3) { transition-delay: .16s; }
+    .reveal:nth-child(4) { transition-delay: .24s; }
+
+    /* ===========================================
+       COVER AND SECTION LAYOUTS
+       =========================================== */
+    .cover h1 { max-width: 1220px; font-size: 126px; }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 58px;
+      max-width: 1320px;
+    }
+
+    .chip {
+      border: 2px solid rgba(0, 65, 101, .18);
+      border-radius: 999px;
+      padding: 14px 24px;
+      background: rgba(255, 255, 255, .66);
+      color: var(--ink);
+      font-size: 24px;
+      font-weight: 750;
+    }
+
+    .section .slide-content,
+    .closing .slide-content {
+      align-items: center;
+      text-align: center;
+    }
+
+    .section h1,
+    .closing h1 { max-width: 1500px; }
+    .section .lead,
+    .closing .lead { max-width: 980px; }
+
+    .section-number {
+      position: absolute;
+      right: 120px;
+      bottom: 70px;
+      color: rgba(255, 255, 255, .07);
+      font-family: var(--font-display);
+      font-size: 310px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    /* ===========================================
+       ROLE AND SPEECH LAYOUTS
+       =========================================== */
+    .role-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) 560px;
+      gap: 84px;
+      align-items: center;
+    }
+
+    .role-main h1 { font-size: 104px; }
+
+    .time-line {
+      display: inline-flex;
+      margin-top: 42px;
+      padding: 13px 20px;
+      border-left: 7px solid var(--yellow);
+      color: var(--blue);
+      background: rgba(242, 223, 116, .18);
+      font-size: 30px;
+      font-weight: 850;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .speaker-panel {
+      position: relative;
+      min-height: 360px;
+      padding: 56px 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      border: 1px solid rgba(0, 65, 101, .14);
+      border-radius: 34px 8px 34px 8px;
+      background:
+        linear-gradient(160deg, rgba(255, 255, 255, .88), rgba(243, 238, 227, .92));
+      box-shadow: 0 26px 70px rgba(6, 35, 58, .12);
+    }
+
+    .speaker-panel::before {
+      content: "";
+      position: absolute;
+      top: 38px;
+      right: 42px;
+      width: 76px;
+      height: 76px;
+      border: 10px solid var(--maroon);
+      border-left-color: transparent;
+      border-radius: 50%;
+      opacity: .82;
+    }
+
+    .speaker-label {
+      color: var(--muted);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: .12em;
+    }
+
+    .speaker-name {
+      margin-top: 16px;
+      color: var(--ink);
+      font-family: var(--font-display);
+      font-size: 74px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .speech h1 {
+      max-width: 1220px;
+      font-size: 104px;
+    }
+
+    .speech h1::before,
+    .speech h1::after { color: var(--maroon); }
+    .speech h1::before { content: "“"; }
+    .speech h1::after { content: "”"; }
+
+    .project-line {
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 27px;
+      font-weight: 750;
+    }
+
+    /* ===========================================
+       CARDS AND BREAK LAYOUTS
+       =========================================== */
+    .cards-layout h1 { font-size: 88px; }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 26px;
+      margin-top: 58px;
+    }
+
+    .card-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .rule-card {
+      min-height: 260px;
+      padding: 38px 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-top: 8px solid var(--maroon);
+      background: rgba(255, 255, 255, .82);
+      box-shadow: 0 20px 55px rgba(6, 35, 58, .1);
+    }
+
+    .rule-index {
+      color: var(--maroon);
+      font-size: 24px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .rule-text {
+      color: var(--ink);
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .break .slide-content { align-items: center; text-align: center; }
+    .break h1 { font-size: 150px; }
+    .break .time-line { color: var(--yellow); background: rgba(255, 255, 255, .08); }
+
+    /* ===========================================
+       PRESENTATION CHROME
+       =========================================== */
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 11px;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 16px;
+      background: rgba(3, 18, 26, .88);
+      color: #fff;
+      box-shadow: 0 14px 42px rgba(0, 0, 0, .34);
+      backdrop-filter: blur(14px);
+    }
+
+    .control {
+      min-width: 46px;
+      height: 40px;
+      padding: 0 13px;
+      border: 0;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .09);
+      color: #fff;
+      font: 700 14px var(--font-body);
+      cursor: pointer;
+    }
+
+    .control:hover { background: rgba(255, 255, 255, .18); }
+    .control:focus-visible,
+    .edit-toggle:focus-visible {
+      outline: 3px solid var(--yellow);
+      outline-offset: 3px;
+    }
+
+    .slide-status {
+      min-width: 112px;
+      text-align: center;
+      color: rgba(255, 255, 255, .74);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .progress {
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: rgba(255, 255, 255, .07);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--maroon), var(--yellow), var(--blue-bright));
+      transition: width .2s ease;
+    }
+
+    /* ===========================================
+       OPTIONAL INLINE EDITING
+       =========================================== */
+    .edit-hotzone {
+      position: fixed;
+      z-index: 10000;
+      top: 0;
+      left: 0;
+      width: 80px;
+      height: 80px;
+      cursor: pointer;
+    }
+
+    .edit-toggle {
+      position: fixed;
+      z-index: 10001;
+      top: 16px;
+      left: 16px;
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(255, 255, 255, .2);
+      border-radius: 14px;
+      background: rgba(3, 18, 26, .9);
+      color: #fff;
+      opacity: 0;
+      pointer-events: none;
+      cursor: pointer;
+      transition: opacity .25s ease;
+    }
+
+    .edit-toggle.show,
+    .edit-toggle.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .editing [contenteditable="true"] {
+      outline: 3px dashed rgba(119, 36, 50, .55);
+      outline-offset: 6px;
+      cursor: text;
+    }
+  </style>
+</head>
+<body>
+  <div class="deck-viewport" id="deckViewport">
+    <main class="deck-stage" id="deckStage" aria-live="polite"></main>
+  </div>
+
+  <nav class="deck-controls" aria-label="演示控制">
+    <button class="control" id="prevBtn" type="button" aria-label="上一页" title="上一页">←</button>
+    <div class="slide-status" id="slideStatus">1 / 9</div>
+    <button class="control" id="nextBtn" type="button" aria-label="下一页" title="下一页">→</button>
+    <button class="control" id="fullscreenBtn" type="button" aria-label="全屏" title="全屏（F）">⛶</button>
+  </nav>
+
+  <div class="progress" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="edit-hotzone" aria-hidden="true"></div>
+  <button class="edit-toggle" id="editToggle" type="button" aria-label="切换文字编辑模式" title="编辑模式（E）">✎</button>
+
+  <script>
+    "use strict";
+
+    /* BUILD:STORAGE_KEY:START */
+    const storageKey = "mingyuan-20260902-sample-meeting-v1";
+    /* BUILD:STORAGE_KEY:END */
+
+    /* BUILD:MEETING:START */
+    const meeting = {
+      "club": "明源云 AI Lab 头马演讲俱乐部",
+      "label": "匿名示例例会",
+      "topic": "让表达成为行动",
+      "word": "笃定",
+      "date": "2026-09-02 · 星期三",
+      "time": "19:30-21:30",
+      "location": "示例会议室",
+      "manager": "伙伴A"
+    };
+    /* BUILD:MEETING:END */
+
+    /* BUILD:SLIDES:START */
+    const slides = [
+      {
+        "type": "cover",
+        "eyebrow": "明源云 AI Lab 头马演讲俱乐部",
+        "title": "让表达成为行动",
+        "lead": "练好表达，用好 AI，在真实舞台上持续成长。",
+        "chips": ["匿名示例例会", "2026-09-02 · 星期三", "19:30-21:30 · 示例会议室", "今日一词 · 笃定"]
+      },
+      {
+        "type": "role",
+        "eyebrow": "开场",
+        "title": "会议规则介绍",
+        "speaker": "伙伴B",
+        "time": "19:30 - 19:33（3分钟）"
+      },
+      {
+        "type": "cards",
+        "eyebrow": "会议规则",
+        "title": "3个提醒",
+        "lead": "让每一位伙伴都能安心投入",
+        "items": ["手机调为震动或者静音模式", "不要在会场来回走动", "不要私下交谈"]
+      },
+      {
+        "type": "section",
+        "eyebrow": "环节 02",
+        "title": "备稿演讲",
+        "lead": "把准备带上舞台，让观点被听见。"
+      },
+      {
+        "type": "speech",
+        "eyebrow": "备稿演讲",
+        "title": "向前一步",
+        "speaker": "伙伴G",
+        "project": "L1 项目示例",
+        "time": "19:54 - 20:01（7分钟）",
+        "index": "备稿演讲 01"
+      },
+      {
+        "type": "role",
+        "eyebrow": "即兴演讲",
+        "title": "即兴演讲",
+        "speaker": "伙伴I",
+        "time": "20:10 - 20:28（18分钟）"
+      },
+      {
+        "type": "break",
+        "eyebrow": "即兴演讲",
+        "title": "中场休息",
+        "lead": "短暂休息，20:35 准时回来。",
+        "time": "20:28 - 20:35（7分钟）"
+      },
+      {
+        "type": "section",
+        "eyebrow": "环节 04",
+        "title": "点评与报告",
+        "lead": "用具体反馈，帮助每一次表达继续生长。"
+      },
+      {
+        "type": "closing",
+        "eyebrow": "明源云 AI Lab 头马演讲俱乐部",
+        "title": "明星闪耀，源来是你！",
+        "lead": "匿名示例例会 · 让表达成为行动"
+      }
+    ];
+    /* BUILD:SLIDES:END */
+
+    const stage = document.getElementById("deckStage");
+    const viewport = document.getElementById("deckViewport");
+    const status = document.getElementById("slideStatus");
+    const progressFill = document.getElementById("progressFill");
+    const editToggle = document.getElementById("editToggle");
+    const hotzone = document.querySelector(".edit-hotzone");
+
+    const defaultState = {
+      slideIndex: 0,
+      editMode: false,
+      editedDeckHtml: ""
+    };
+
+    let state = loadState();
+    let touchStartX = null;
+    let lastWheelAt = 0;
+    let hideEditTimeout = null;
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function loadState() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(storageKey) || "{}");
+        return { ...defaultState, ...stored };
+      } catch {
+        return { ...defaultState };
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+    }
+
+    function slideShell(slide, body, extraClass = "") {
+      const dark = ["section", "break", "closing"].includes(slide.type) ? " dark" : "";
+      return '<section class="slide ' + escapeHtml(slide.type) + dark + " " + extraClass + '">' +
+        '<div class="brand-rail" aria-hidden="true"></div>' +
+        '<div class="ai-lattice" aria-hidden="true"></div>' +
+        '<div class="brand"><span class="brand-spark" aria-hidden="true"></span>' +
+        escapeHtml(meeting.club) + "</div>" + body + "</section>";
+    }
+
+    function renderSlide(slide, index) {
+      if (slide.type === "role") {
+        return slideShell(slide,
+          '<div class="slide-content"><div class="role-grid">' +
+          '<div class="role-main"><div class="eyebrow reveal">' + escapeHtml(slide.eyebrow) + "</div>" +
+          '<h1 class="reveal">' + escapeHtml(slide.title) + "</h1>" +
+          '<div class="time-line reveal">' + escapeHtml(slide.time) + "</div></div>" +
+          '<div class="speaker-panel reveal"><div class="speaker-label">本环节伙伴</div>' +
+          '<div class="speaker-name">' + escapeHtml(slide.speaker) + "</div></div>" +
+          "</div></div>"
+        );
+      }
+
+      if (slide.type === "speech") {
+        return slideShell(slide,
+          '<div class="slide-content"><div class="role-grid">' +
+          '<div class="role-main"><div class="eyebrow reveal">' + escapeHtml(slide.index || slide.eyebrow) + "</div>" +
+          '<h1 class="reveal">' + escapeHtml(slide.title) + "</h1>" +
+          '<div class="project-line reveal">' + escapeHtml(slide.project || "备稿演讲") + "</div>" +
+          '<div class="time-line reveal">' + escapeHtml(slide.time) + "</div></div>" +
+          '<div class="speaker-panel reveal"><div class="speaker-label">演讲伙伴</div>' +
+          '<div class="speaker-name">' + escapeHtml(slide.speaker) + "</div></div>" +
+          "</div></div>",
+          "speech"
+        );
+      }
+
+      if (slide.type === "cards") {
+        const items = (slide.items || []).map((item, itemIndex) =>
+          '<article class="rule-card reveal"><div class="rule-index">0' + (itemIndex + 1) + "</div>" +
+          '<div class="rule-text">' + escapeHtml(item) + "</div></article>"
+        ).join("");
+        const gridClass = (slide.items || []).length === 3 ? "card-grid three" : "card-grid";
+        return slideShell(slide,
+          '<div class="slide-content cards-layout"><div class="eyebrow reveal">' + escapeHtml(slide.eyebrow) + "</div>" +
+          '<h1 class="reveal">' + escapeHtml(slide.title) + "</h1>" +
+          '<p class="lead reveal">' + escapeHtml(slide.lead || "") + "</p>" +
+          '<div class="' + gridClass + '">' + items + "</div></div>"
+        );
+      }
+
+      if (slide.type === "break") {
+        return slideShell(slide,
+          '<div class="slide-content"><div class="eyebrow reveal">' + escapeHtml(slide.eyebrow) + "</div>" +
+          '<h1 class="reveal">' + escapeHtml(slide.title) + "</h1>" +
+          '<p class="lead reveal">' + escapeHtml(slide.lead || "") + "</p>" +
+          '<div class="time-line reveal">' + escapeHtml(slide.time || "") + "</div></div>"
+        );
+      }
+
+      if (slide.type === "section" || slide.type === "closing") {
+        return slideShell(slide,
+          '<div class="slide-content"><div class="eyebrow reveal">' + escapeHtml(slide.eyebrow) + "</div>" +
+          '<h1 class="reveal">' + escapeHtml(slide.title) + "</h1>" +
+          '<p class="lead reveal">' + escapeHtml(slide.lead || "") + "</p>" +
+          (slide.type === "section" ? '<div class="section-number" aria-hidden="true">' + String(index + 1).padStart(2, "0") + "</div>" : "") +
+          "</div>"
+        );
+      }
+
+      const chips = (slide.chips || []).map((chip) =>
+        '<span class="chip reveal">' + escapeHtml(chip) + "</span>"
+      ).join("");
+      return slideShell(slide,
+        '<div class="slide-content"><div class="eyebrow reveal">' + escapeHtml(slide.eyebrow) + "</div>" +
+        '<h1 class="reveal">' + escapeHtml(slide.title) + "</h1>" +
+        '<p class="lead reveal">' + escapeHtml(slide.lead || "") + "</p>" +
+        '<div class="chips">' + chips + "</div></div>",
+        "cover"
+      );
+    }
+
+    function mountSlides() {
+      stage.innerHTML = state.editedDeckHtml || slides.map(renderSlide).join("");
+      state.slideIndex = Math.min(Math.max(Number(state.slideIndex) || 0, 0), slides.length - 1);
+      applyEditMode();
+      updateSlide();
+    }
+
+    function updateSlide() {
+      stage.querySelectorAll(".slide").forEach((slide, index) => {
+        slide.classList.toggle("active", index === state.slideIndex);
+        slide.classList.toggle("visible", index === state.slideIndex);
+      });
+      status.textContent = (state.slideIndex + 1) + " / " + slides.length;
+      progressFill.style.width = ((state.slideIndex + 1) / slides.length * 100) + "%";
+      saveState();
+    }
+
+    function goTo(index) {
+      state.slideIndex = Math.min(Math.max(index, 0), slides.length - 1);
+      updateSlide();
+    }
+
+    function next() { goTo(state.slideIndex + 1); }
+    function previous() { goTo(state.slideIndex - 1); }
+
+    function resizeStage() {
+      const factor = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+      const x = (window.innerWidth - 1920 * factor) / 2;
+      const y = (window.innerHeight - 1080 * factor) / 2;
+      stage.style.transform = "translate(" + x + "px, " + y + "px) scale(" + factor + ")";
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    function applyEditMode() {
+      document.body.classList.toggle("editing", state.editMode);
+      editToggle.classList.toggle("active", state.editMode);
+      editToggle.setAttribute("aria-pressed", String(state.editMode));
+      stage.querySelectorAll("h1, .lead, .chip, .speaker-name, .rule-text, .time-line, .project-line").forEach((element) => {
+        element.setAttribute("contenteditable", String(state.editMode));
+      });
+    }
+
+    function toggleEditMode() {
+      state.editMode = !state.editMode;
+      applyEditMode();
+      saveState();
+    }
+
+    stage.addEventListener("input", () => {
+      if (!state.editMode) return;
+      state.editedDeckHtml = stage.innerHTML;
+      saveState();
+    });
+
+    document.getElementById("prevBtn").addEventListener("click", (event) => {
+      event.stopPropagation();
+      previous();
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", (event) => {
+      event.stopPropagation();
+      next();
+    });
+
+    document.getElementById("fullscreenBtn").addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleFullscreen();
+    });
+
+    editToggle.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleEditMode();
+    });
+
+    hotzone.addEventListener("click", () => toggleEditMode());
+    hotzone.addEventListener("mouseenter", () => {
+      window.clearTimeout(hideEditTimeout);
+      editToggle.classList.add("show");
+    });
+    hotzone.addEventListener("mouseleave", () => {
+      hideEditTimeout = window.setTimeout(() => {
+        if (!state.editMode) editToggle.classList.remove("show");
+      }, 400);
+    });
+    editToggle.addEventListener("mouseenter", () => window.clearTimeout(hideEditTimeout));
+    editToggle.addEventListener("mouseleave", () => {
+      hideEditTimeout = window.setTimeout(() => {
+        if (!state.editMode) editToggle.classList.remove("show");
+      }, 400);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      const editingText = event.target instanceof HTMLElement && event.target.isContentEditable;
+      if ((event.key === "e" || event.key === "E") && !editingText) {
+        toggleEditMode();
+        return;
+      }
+      if (editingText) return;
+      if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+        event.preventDefault();
+        next();
+      } else if (["ArrowLeft", "PageUp"].includes(event.key)) {
+        event.preventDefault();
+        previous();
+      } else if (event.key === "Home") {
+        goTo(0);
+      } else if (event.key === "End") {
+        goTo(slides.length - 1);
+      } else if (event.key === "f" || event.key === "F") {
+        toggleFullscreen();
+      }
+    });
+
+    viewport.addEventListener("click", (event) => {
+      if (state.editMode || event.target.closest("button")) return;
+      if (event.clientX < window.innerWidth / 2) previous();
+      else next();
+    });
+
+    viewport.addEventListener("touchstart", (event) => {
+      touchStartX = event.changedTouches[0].clientX;
+    }, { passive: true });
+
+    viewport.addEventListener("touchend", (event) => {
+      if (touchStartX === null || state.editMode) return;
+      const delta = event.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(delta) > 60) delta < 0 ? next() : previous();
+      touchStartX = null;
+    }, { passive: true });
+
+    window.addEventListener("wheel", (event) => {
+      const now = Date.now();
+      if (state.editMode || now - lastWheelAt < 650 || Math.abs(event.deltaY) < 18) return;
+      lastWheelAt = now;
+      event.deltaY > 0 ? next() : previous();
+    }, { passive: true });
+
+    window.addEventListener("resize", resizeStage);
+    mountSlides();
+    resizeStage();
+  </script>
+</body>
+</html>

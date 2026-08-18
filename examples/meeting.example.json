@@ -1,0 +1,210 @@
+{
+  "club_name": "明源云 AI Lab 头马演讲俱乐部",
+  "meeting_label": "匿名示例例会",
+  "meeting_format": "常规例会",
+  "date": "2026-09-02",
+  "weekday": "星期三",
+  "meeting_time": "19:30-21:30",
+  "expected_minutes": 120,
+  "timezone": "Asia/Shanghai",
+  "topic": "让表达成为行动",
+  "word_of_day": "笃定",
+  "location": "示例会议室",
+  "meeting_manager": "伙伴A",
+  "slogan": "明星闪耀，源来是你！",
+  "include_standard_rules": true,
+  "sections": [
+    {
+      "title": "开场",
+      "rows": [
+        {
+          "start": "19:30",
+          "activity": "会议规则介绍",
+          "duration": 3,
+          "role_taker": "伙伴B",
+          "role_key": "saa",
+          "kind": "rules"
+        },
+        {
+          "start": "19:33",
+          "activity": "主席主题致辞",
+          "duration": 5,
+          "role_taker": "伙伴C",
+          "role_key": "president"
+        },
+        {
+          "start": "19:38",
+          "activity": "会议主持人开场",
+          "duration": 4,
+          "role_taker": "伙伴A",
+          "role_key": "meeting-manager"
+        },
+        {
+          "start": "19:42",
+          "activity": "时间官宣言",
+          "duration": 2,
+          "role_taker": "伙伴D",
+          "role_key": "timer"
+        },
+        {
+          "start": "19:44",
+          "activity": "语言官宣言",
+          "duration": 2,
+          "role_taker": "伙伴E",
+          "role_key": "grammarian"
+        },
+        {
+          "start": "19:46",
+          "activity": "哼哈官宣言",
+          "duration": 2,
+          "role_taker": "伙伴F",
+          "role_key": "ah-counter"
+        },
+        {
+          "start": "19:48",
+          "activity": "嘉宾介绍与合影",
+          "duration": 6,
+          "role_taker": "伙伴A",
+          "role_key": "meeting-manager"
+        }
+      ]
+    },
+    {
+      "title": "备稿演讲",
+      "rows": [
+        {
+          "start": "19:54",
+          "activity": "备稿演讲 1",
+          "duration": 7,
+          "role_taker": "伙伴G",
+          "kind": "prepared_speech",
+          "speech_index": 1,
+          "details": {
+            "title": "向前一步",
+            "project": "L1 项目示例",
+            "evaluator": "伙伴J"
+          }
+        },
+        {
+          "start": "20:01",
+          "activity": "备稿演讲 2",
+          "duration": 7,
+          "role_taker": "伙伴H",
+          "kind": "prepared_speech",
+          "speech_index": 2,
+          "details": {
+            "title": "把问题说清楚",
+            "project": "L2 项目示例",
+            "evaluator": "伙伴K"
+          }
+        }
+      ]
+    },
+    {
+      "title": "即兴演讲",
+      "rows": [
+        {
+          "start": "20:08",
+          "activity": "即兴演讲规则",
+          "duration": 2,
+          "role_taker": "伙伴I",
+          "role_key": "table-topics-master"
+        },
+        {
+          "start": "20:10",
+          "activity": "即兴演讲",
+          "duration": 18,
+          "role_taker": "伙伴I",
+          "role_key": "table-topics-master"
+        },
+        {
+          "start": "20:28",
+          "activity": "中场休息",
+          "duration": 7,
+          "role_taker": "",
+          "owner_required": false,
+          "kind": "break"
+        }
+      ]
+    },
+    {
+      "title": "点评与报告",
+      "rows": [
+        {
+          "start": "20:35",
+          "activity": "备稿演讲点评 1",
+          "duration": 3,
+          "role_taker": "伙伴J",
+          "kind": "prepared_speech_evaluation",
+          "speech_index": 1
+        },
+        {
+          "start": "20:38",
+          "activity": "备稿演讲点评 2",
+          "duration": 3,
+          "role_taker": "伙伴K",
+          "kind": "prepared_speech_evaluation",
+          "speech_index": 2
+        },
+        {
+          "start": "20:41",
+          "activity": "即兴演讲点评",
+          "duration": 6,
+          "role_taker": "伙伴L"
+        },
+        {
+          "start": "20:47",
+          "activity": "时间官报告",
+          "duration": 3,
+          "role_taker": "伙伴D",
+          "role_key": "timer"
+        },
+        {
+          "start": "20:50",
+          "activity": "语言官报告",
+          "duration": 3,
+          "role_taker": "伙伴E",
+          "role_key": "grammarian"
+        },
+        {
+          "start": "20:53",
+          "activity": "哼哈官报告",
+          "duration": 2,
+          "role_taker": "伙伴F",
+          "role_key": "ah-counter"
+        },
+        {
+          "start": "20:55",
+          "activity": "总点评",
+          "duration": 8,
+          "role_taker": "伙伴M"
+        }
+      ]
+    },
+    {
+      "title": "高光与闭幕",
+      "rows": [
+        {
+          "start": "21:03",
+          "activity": "最佳角色与真情分享",
+          "duration": 10,
+          "role_taker": "伙伴A"
+        },
+        {
+          "start": "21:13",
+          "activity": "主席闭幕",
+          "duration": 12,
+          "role_taker": "伙伴C",
+          "role_key": "president"
+        },
+        {
+          "start": "21:25",
+          "activity": "会议经理收束",
+          "duration": 5,
+          "role_taker": "伙伴A",
+          "role_key": "meeting-manager"
+        }
+      ]
+    }
+  ]
+}
