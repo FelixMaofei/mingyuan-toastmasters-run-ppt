@@ -4,7 +4,7 @@ Use one UTF-8 JSON object as meeting truth. See `examples/meeting.example.json` 
 
 ## Required top-level fields
 
-- `club_name`: a Mingyuan Toastmasters club name
+- `club_name`: `Super AI Lab头马俱乐部` for new meetings; preserve the confirmed Mingyuan / 明源云 name for historical meetings
 - `meeting_label`: current issue or meeting label
 - `meeting_format`: for example `常规例会`, `演讲马拉松`, `工作坊`, or `比赛`
 - `date`: ISO `YYYY-MM-DD`
@@ -57,4 +57,6 @@ python3 <skill-dir>/scripts/validate_meeting.py /absolute/path/to/meeting.json
 
 The validator checks required facts, unresolved markers, ISO date and weekday, row continuity, declared end, role-owner consistency, hidden handoffs, and speech/evaluation mapping.
 
-After a factual correction, update `meeting.json`, rerun validation, and regenerate the HTML. The JSON remains the truth source.
+Reuse the current meeting's already-approved agenda. An explicit user correction confirms that specific change: update `meeting.json`, rerun validation, and regenerate the HTML without asking for the same confirmation again. The JSON remains the truth source.
+
+If the correction creates a new conflict or requires another decision, ask about that issue before proceeding with the affected part. Do not infer another person's role, change the declared meeting window, or silently compress other segments to accommodate a correction.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build a usable Mingyuan Toastmasters HTML run deck from validated meeting JSON."""
+"""Build a usable Super AI Lab Toastmasters HTML run deck from validated meeting JSON."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-# Mingyuan Run Deck Standards
+# Super AI Lab Run Deck Standards
 
 ## Information priority
 
@@ -53,7 +53,7 @@ The bundled generator can add these cards after a row with `kind: "rules"`:
 
 ## Identity and wording
 
-- Keep the exact club name supplied for the current meeting.
+- Use `Super AI Lab头马俱乐部` for new meetings; retain the confirmed historical name when working on a historical meeting or existing source.
 - A common slogan is `明星闪耀，源来是你！`; use the current approved slogan when provided.
 - Stable value words include `表达`, `AI`, `成长`, `温暖`, and `乐趣`.
 - Use only the location confirmed in the current source. Do not carry a historical office address into a new meeting.

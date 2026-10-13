@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static checks for portable Mingyuan Toastmasters fixed-stage HTML run decks."""
+"""Static checks for portable Super AI Lab Toastmasters fixed-stage HTML run decks."""
 
 from __future__ import annotations
 
@@ -313,7 +313,7 @@ def check(path: Path) -> dict:
     if len(definitions) != 1:
         issues.append(f"Expected exactly one storageKey definition; found {len(definitions)}")
     if storage_key and "mingyuan" not in storage_key.casefold():
-        issues.append("storageKey must identify Mingyuan")
+        issues.append("storageKey must retain the stable mingyuan Skill namespace")
     all_storage_values = set(definitions + literal_keys)
     if len(all_storage_values) > 1:
         issues.append("Multiple localStorage key values found: " + ", ".join(sorted(all_storage_values)))
@@ -330,8 +330,10 @@ def check(path: Path) -> dict:
         issues.append("Missing relative asset(s): " + ", ".join(missing_assets))
 
     lowered_text = text.casefold()
-    if "明源" not in text or not ("头马" in text or "toastmasters" in lowered_text):
-        issues.append("Mingyuan Toastmasters club identity not found")
+    compact_text = re.sub(r"\s+", "", lowered_text)
+    known_club = "superailab" in compact_text or "明源" in text or bool(re.search(r"mingyuan\s+.*?toastmasters", lowered_text))
+    if not known_club or not ("头马" in text or "toastmasters" in lowered_text):
+        issues.append("Super AI Lab Toastmasters or historical Mingyuan club identity not found")
     unresolved_hits = [marker for marker in UNRESOLVED_MARKERS if marker in text]
     if unresolved_hits:
         issues.append("Unresolved marker(s) found: " + ", ".join(unresolved_hits))

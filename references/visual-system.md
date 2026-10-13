@@ -1,4 +1,4 @@
-# Visual System for Mingyuan Run Decks
+# Visual System for Super AI Lab Run Decks
 
 ## Visual thesis
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate portable Mingyuan Toastmasters meeting JSON for a live run deck."""
+"""Validate portable Super AI Lab Toastmasters meeting JSON for a live run deck."""
 
 from __future__ import annotations
 
@@ -151,8 +151,11 @@ def validate(data: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
             errors.append(f"missing or unresolved required field: {field}")
 
     club_name = str(result.get("club_name", "")).strip()
-    if club_name and ("明源" not in club_name or not ("头马" in club_name or "toastmasters" in club_name.casefold())):
-        errors.append("club_name must identify a Mingyuan Toastmasters club")
+    normalized_club = re.sub(r"\s+", "", club_name).casefold()
+    known_club = "superailab" in normalized_club or "明源" in club_name or "mingyuan" in normalized_club
+    is_toastmasters = "头马" in club_name or "toastmasters" in normalized_club
+    if club_name and not (known_club and is_toastmasters):
+        errors.append("club_name must identify Super AI Lab Toastmasters or its historical Mingyuan name")
 
     include_rules = result.get("include_standard_rules", False)
     if not isinstance(include_rules, bool):

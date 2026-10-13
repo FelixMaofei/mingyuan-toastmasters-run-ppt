@@ -1,13 +1,15 @@
 ---
 name: mingyuan-toastmasters-run-ppt
-description: Create polished, fixed-stage Chinese HTML run decks for Mingyuan Yun AI Lab Toastmasters meetings from confirmed agendas, role relays, screenshots, PDFs, or PPTX files. Use for 明源云串场PPT、开场PPT、例会投屏、角色接龙转PPT、会单转HTML演示 or a browser-based Toastmasters run deck.
+description: Create polished, fixed-stage Chinese HTML run decks for Super AI Lab Toastmasters meetings from confirmed agendas, role relays, screenshots, PDFs, or PPTX files. Use for Super AI Lab 串场PPT、明源云串场PPT、开场PPT、例会投屏 or 会单转HTML演示.
 ---
 
-# Mingyuan Toastmasters Run PPT
+# Super AI Lab Toastmasters Run PPT
+
+Use `Super AI Lab头马俱乐部` for new materials. Recognize `明源云` / `Mingyuan` as the former name and preserve the name used in historical meetings, source quotations, and existing deliverables. A name change does not establish the venue, membership terms, fees, or meeting number; use the current confirmed facts. Keep the Skill identifier `mingyuan-toastmasters-run-ppt` for existing installations.
 
 ## Purpose
 
-Turn verified Mingyuan Yun AI Lab Toastmasters meeting facts into a directly usable browser-based transition deck. The core path must work with this Skill alone: normalize facts, validate them, generate from the bundled starter, check the result, and visually inspect the high-risk slides.
+Turn verified Super AI Lab Toastmasters meeting facts into a directly usable browser-based transition deck. The core path must work with this Skill alone: normalize facts, validate them, generate from the bundled starter, check the result, and visually inspect the high-risk slides.
 
 ## Standalone Contract
 
@@ -21,7 +23,7 @@ Turn verified Mingyuan Yun AI Lab Toastmasters meeting facts into a directly usa
 
 Read `references/meeting-input-contract.md` before normalizing source material.
 
-Before generating the final deck, confirm:
+Before generating the final deck, establish the following from user-confirmed sources. Reuse the current meeting's already-approved agenda without asking for the same confirmation again:
 
 - club name, meeting label, format, ISO date, weekday, declared start/end, topic, location, and meeting manager;
 - every visible activity, owner, duration, order, prepared-speech title, and evaluation mapping;
@@ -29,6 +31,8 @@ Before generating the final deck, confirm:
 - any source-designed image page that must be preserved as an image.
 
 Current user corrections outrank screenshots, OCR, old decks, and standing defaults. Ask blocking questions together. Never print `TBD`, `TODO`, `待定`, `待确认`, `🌺`, blank names, or invented speech titles in a final deck.
+
+An explicit user correction confirms that specific change: update `meeting.json`, rerun validation, then regenerate the deck. Ask only about new conflicts, unresolved facts, or additional choices; a correction does not authorize inferring other unknowns or changing unrelated segments.
 
 ## Workflow
 
@@ -55,6 +59,7 @@ Current user corrections outrank screenshots, OCR, old decks, and standing defau
      ```
 
    - The generator creates a fixed `1920x1080` HTML deck with cover, real section changes, role slides, prepared-speech slides, standard rule cards when requested, closing, navigation, progress, fullscreen, touch support, and versioned local state.
+   - When materially revising an existing deck, increment `--version` and use `--force` to replace the intended output. This refreshes its browser storage key without changing the confirmed meeting facts.
 
 4. **Apply meeting-specific design**
    - Read `references/deck-standards.md` and `references/visual-system.md`.
@@ -75,7 +80,7 @@ Current user corrections outrank screenshots, OCR, old decks, and standing defau
 
 When the deck is needed immediately, ship the validated generated baseline first. Check the cover, densest page, and one representative role slide. State any skipped polish or source assumption. Do not delay a usable first version for a full visual redesign.
 
-## Mingyuan Content Boundaries
+## Super AI Lab Content Boundaries
 
 - Use only the location and names confirmed for the current meeting; do not insert a standing office address.
 - Keep operational handoff scripts off visible slides unless presenter notes are explicitly requested.

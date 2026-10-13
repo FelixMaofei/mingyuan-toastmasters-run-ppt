@@ -1,4 +1,4 @@
 interface:
-  display_name: "明源云串场PPT"
+  display_name: "Super AI Lab 串场PPT"
   short_description: "从已确认会单或角色接龙生成可投屏的中文 HTML PPT"
-  default_prompt: "Use $mingyuan-toastmasters-run-ppt to turn this confirmed Mingyuan meeting agenda or role relay into a polished, offline-capable HTML run deck. Ask for missing facts together and do not invent them."
+  default_prompt: "Use $mingyuan-toastmasters-run-ppt to turn this confirmed Super AI Lab meeting agenda or role relay into an offline-capable HTML run deck, reusing approved facts and asking only about unresolved information."
