@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="zh-CN" data-deck-style="shuwen">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Super AI Lab头马俱乐部 | 匿名示例</title>
+  <style>
+/* ===========================================
+   FIXED 16:9 STAGE: MANDATORY BASE STYLES
+   Include this ENTIRE file in every presentation.
+   Slides are authored at 1920×1080 and scaled as a whole.
+   =========================================== */
+
+/* 1. Lock the browser viewport */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+
+/* 2. Full-window deck viewport */
+.deck-viewport {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
+
+/* 3. Fixed 16:9 design canvas.
+   JavaScript sets transform: translate(...) scale(...). */
+.deck-stage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    transform-origin: 0 0;
+    background: var(--slide-bg, #fff);
+}
+
+/* 4. Slides stack inside the fixed stage.
+   Content must be laid out at 1920×1080, not reflowed per device. */
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: var(--slide-bg, #fff);
+}
+
+.slide.active,
+.slide.visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+/* 5. Keep media inside authored slide bounds */
+img,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 6. Presentation chrome stays outside the slide design system */
+.deck-controls {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+/* 7. Print one fixed-size slide per page */
+@media print {
+    html,
+    body {
+        width: 1920px;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+    }
+
+    .deck-viewport {
+        position: static;
+        overflow: visible;
+        background: #fff;
+    }
+
+    .deck-stage {
+        position: static;
+        width: auto;
+        height: auto;
+        transform: none !important;
+        background: none;
+    }
+
+    .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+    }
+
+    .slide:last-child {
+        break-after: auto;
+        page-break-after: auto;
+    }
+
+    .deck-controls {
+        display: none !important;
+    }
+}
+
+/* 8. Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+    }
+}
+
+    /* === Shuwen navy and gold: preserve open space at left and robot at right === */
+    :root {
+      --stage-bg: #031529;
+      --slide-bg: #03223f;
+      --cream: #f6e5cc;
+      --gold: #c9aa74;
+      --font-display: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { color: var(--cream); font-family: var(--font-display); }
+    .slide { background-size: 1920px 1080px; background-repeat: no-repeat; transition: opacity .16s; }
+    .bg-cover { background-image: url("shuwen/cover.jpg"); }
+    .bg-opening { background-image: url("shuwen/opening.jpg"); }
+    .bg-feedback { background-image: url("shuwen/feedback.jpg"); }
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 130px; font-weight: 900; line-height: 1.2; letter-spacing: 0; white-space: pre-line; overflow-wrap: anywhere; }
+    .copy { position: absolute; left: 156px; top: 222px; width: 960px; }
+    .phase { font-size: 32px; font-weight: 700; border-left: 6px solid var(--gold); padding-left: 16px; margin-bottom: 42px; }
+    .role h1, .speech h1 { font-style: italic; }
+    h1.long-title { font-size: 106px; }
+    .speaker-name { font-size: 82px; font-weight: 800; line-height: 1.2; margin-top: 34px; overflow-wrap: anywhere; }
+    .project-line { margin-top: 26px; font-size: 31px; line-height: 1.5; color: #ded2c1; }
+    .time-token { display: inline-block; margin-top: 32px; padding: 14px 21px; border: 2px solid var(--gold); border-radius: 18px; background: #03263cdd; font-size: 30px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .meeting-footer { position: absolute; left: 135px; bottom: 92px; max-width: 1000px; padding: 13px 26px; border: 2px solid #b69964; border-radius: 32px; background: #04263ee6; color: #efe0c6; font-size: 24px; line-height: 1.3; }
+    .cover .copy { top: 210px; width: 1050px; }
+    .issue { display: inline-block; border: 2px solid var(--cream); border-radius: 38px; padding: 8px 22px; font-size: 40px; font-weight: 750; }
+    .cover h1 { margin-top: 42px; font-size: 116px; line-height: 1.22; }
+    .cover h1.long-title { font-size: 100px; }
+    .word { font-size: 52px; font-weight: 650; margin-top: 28px; }
+    .meeting-meta { font-size: 27px; line-height: 1.65; margin-top: 24px; max-width: 1000px; }
+    .section .copy, .closing .copy { top: 320px; width: 1050px; }
+    .section h1, .closing h1 { font-size: 124px; }
+    .closing h1.long-title { font-size: 110px; text-wrap: balance; }
+    .lead { margin-top: 34px; font-size: 38px; line-height: 1.6; }
+    .cards .copy { top: 184px; width: 960px; }
+    .cards .phase { margin-bottom: 24px; }
+    .cards h1 { font-size: 90px; }
+    .cards .lead { font-size: 32px; margin-top: 22px; }
+    .rule-list { display: flex; flex-direction: column; gap: 18px; margin-top: 34px; }
+    .rule-row { display: grid; grid-template-columns: 50px 1fr; gap: 22px; align-items: baseline; border-top: 1px solid #c9aa7455; padding-top: 18px; }
+    .rule-number { color: var(--gold); font-size: 27px; font-weight: 750; }
+    .rule-text { font-size: 39px; line-height: 1.45; }
+
+    /* === Quiet presentation controls outside the artwork === */
+    .deck-controls { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: #00172be8; border: 1px solid #d1af7266; border-radius: 50px; bottom: 14px; opacity: 0; transition: opacity .2s; color: #fff; }
+    .deck-controls:hover, .deck-controls:focus-within, body.controls-visible .deck-controls { opacity: 1; }
+    .control { border: 0; background: transparent; color: #fff; min-width: 44px; min-height: 40px; padding: 6px 14px; font-size: 20px; cursor: pointer; }
+    .control:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 8px; }
+    .slide-status { min-width: 66px; text-align: center; font-size: 15px; }
+    .progress { position: fixed; bottom: 0; left: 0; height: 3px; width: 100%; z-index: 2000; pointer-events: none; }
+    .progress-fill { height: 100%; background: var(--gold); }
+    @media print { .progress { display: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="deck-viewport" id="deckViewport"><main class="deck-stage" id="deckStage" aria-live="polite"></main></div>
+  <nav class="deck-controls" aria-label="演示控制">
+    <button class="control" id="prevBtn" type="button" title="上一页" aria-label="上一页">←</button>
+    <div class="slide-status" id="slideStatus"></div>
+    <button class="control" id="nextBtn" type="button" title="下一页" aria-label="下一页">→</button>
+    <button class="control" id="fullscreenBtn" type="button" title="全屏 F" aria-label="全屏">⛶</button>
+  </nav>
+  <div class="progress" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+  <script>
+    "use strict";
+
+    /* BUILD:STORAGE_KEY:START */
+    const storageKey = "mingyuan-shuwen-anonymous-preview-v1";
+    /* BUILD:STORAGE_KEY:END */
+
+    /* BUILD:MEETING:START */
+    const meeting = {
+      "club": "Super AI Lab头马俱乐部",
+      "label": "匿名示例例会",
+      "topic": "让表达成为行动",
+      "word": "笃定",
+      "date": "2026-09-02 · 星期三",
+      "time": "19:30-21:30",
+      "location": "示例会议室",
+      "manager": "伙伴A",
+      "show_schedule": false
+    };
+    /* BUILD:MEETING:END */
+
+    /* BUILD:SLIDES:START */
+    const slides = [
+      {"type": "cover", "title": "让表达成为行动"},
+      {"type": "role", "eyebrow": "开场", "title": "会议规则介绍", "speaker": "伙伴B", "time": "19:30 - 19:33（3分钟）", "bg": "opening"},
+      {"type": "cards", "eyebrow": "会议规则", "title": "3个提醒", "lead": "让每一位伙伴都能安心投入", "items": ["手机调为震动或者静音模式", "不要在会场来回走动", "不要私下交谈"]},
+      {"type": "speech", "eyebrow": "备稿演讲", "title": "向前一步", "speaker": "伙伴G", "project": "L1 项目示例", "time": "19:54 - 20:01（7分钟）", "index": "备稿演讲 01"},
+      {"type": "section", "eyebrow": "环节 04", "title": "点评与报告"},
+      {"type": "role", "eyebrow": "点评与报告", "title": "备稿点评", "speaker": "伙伴J", "time": "20:35 - 20:38（3分钟）", "bg": "feedback"},
+      {"type": "closing", "title": "明星闪耀，源来是你！", "lead": "匿名示例例会 · 让表达成为行动"}
+    ];
+    /* BUILD:SLIDES:END */
+
+    const stage = document.getElementById("deckStage");
+    const viewport = document.getElementById("deckViewport");
+    const status = document.getElementById("slideStatus");
+    const progressFill = document.getElementById("progressFill");
+    const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[char]));
+    const heading = text => '<h1' + (String(text).length > 7 ? ' class="long-title"' : '') + '>' + esc(text) + '</h1>';
+    const phase = text => text ? '<div class="phase">' + esc(text) + '</div>' : '';
+    const timeToken = slide => meeting.show_schedule && slide.time ? '<div class="time-token">' + esc(slide.time) + '</div>' : '';
+
+    function footer() {
+      return '<div class="meeting-footer">' + esc(meeting.label) + ' · ' + esc(meeting.topic) + '</div>';
+    }
+
+    function shell(slide, body) {
+      const type = ["cover", "role", "speech", "cards", "section", "break", "closing"].includes(slide.type) ? slide.type : "role";
+      const bg = ["cover", "section", "break", "closing"].includes(type) ? "cover" : (slide.bg === "feedback" ? "feedback" : "opening");
+      return '<section class="slide ' + type + ' bg-' + bg + '"><div class="copy">' + body + '</div>' + footer() + '</section>';
+    }
+
+    function render(slide) {
+      if (slide.type === "cover") {
+        const word = meeting.word ? '<div class="word">今日一词 · ' + esc(meeting.word) + '</div>' : '';
+        return shell(slide, '<div class="issue">' + esc(meeting.label) + '</div>' + heading(slide.title) + word +
+          '<p class="meeting-meta">' + esc(meeting.date) + ' · ' + esc(meeting.time) + '<br>' + esc(meeting.location) + '</p>');
+      }
+      if (slide.type === "cards") {
+        const rows = (slide.items || []).map((item, index) => '<div class="rule-row"><span class="rule-number">' +
+          String(index + 1).padStart(2, "0") + '</span><p class="rule-text">' + esc(item) + '</p></div>').join("");
+        return shell(slide, phase(slide.eyebrow) + heading(slide.title) +
+          (slide.lead ? '<p class="lead">' + esc(slide.lead) + '</p>' : '') + '<div class="rule-list">' + rows + '</div>');
+      }
+      if (slide.type === "section") {
+        return shell(slide, phase(slide.eyebrow) + heading(slide.title));
+      }
+      if (slide.type === "closing") {
+        return shell(slide, heading(slide.title));
+      }
+      if (slide.type === "break") {
+        const lead = meeting.show_schedule ? slide.lead : "稍作休息，期待接下来的精彩。";
+        return shell(slide, phase(slide.eyebrow) + heading(slide.title) + '<p class="lead">' + esc(lead) + '</p>' + timeToken(slide));
+      }
+      const speechProject = slide.type === "speech" && slide.project ? '<p class="project-line">' + esc(slide.project) + '</p>' : '';
+      return shell(slide, phase(slide.index || slide.eyebrow) + heading(slide.title) +
+        '<div class="speaker-name">' + esc(slide.speaker) + '</div>' + speechProject + timeToken(slide));
+    }
+
+    /* === Page memory, fixed-stage scaling and live navigation === */
+    let slideIndex = 0;
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+      if (Number.isInteger(saved.index)) slideIndex = saved.index;
+    } catch {}
+    stage.innerHTML = slides.map(render).join("");
+
+    function show(index) {
+      slideIndex = Math.max(0, Math.min(slides.length - 1, Number(index) || 0));
+      stage.querySelectorAll(".slide").forEach((slide, index) => {
+        slide.classList.toggle("active", index === slideIndex);
+        slide.classList.toggle("visible", index === slideIndex);
+        slide.setAttribute("aria-hidden", String(index !== slideIndex));
+      });
+      status.textContent = `${slideIndex + 1} / ${slides.length}`;
+      progressFill.style.width = `${(slideIndex + 1) / slides.length * 100}%`;
+      try { localStorage.setItem(storageKey, JSON.stringify({index: slideIndex})); } catch {}
+    }
+    const next = () => show(slideIndex + 1);
+    const previous = () => show(slideIndex - 1);
+    function resize() {
+      const scale = Math.min(innerWidth / 1920, innerHeight / 1080);
+      stage.style.transform = `translate(${(innerWidth - 1920 * scale) / 2}px, ${(innerHeight - 1080 * scale) / 2}px) scale(${scale})`;
+    }
+    function fullscreen() {
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+      else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {});
+    }
+    document.getElementById("prevBtn").onclick = previous;
+    document.getElementById("nextBtn").onclick = next;
+    document.getElementById("fullscreenBtn").onclick = fullscreen;
+    document.addEventListener("keydown", event => {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.target.closest("button, input, textarea, select, [contenteditable=true]")) return;
+      if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(event.key)) { event.preventDefault(); next(); }
+      else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(event.key)) { event.preventDefault(); previous(); }
+      else if (event.key === "Home") { event.preventDefault(); show(0); }
+      else if (event.key === "End") { event.preventDefault(); show(slides.length - 1); }
+      else if (event.key.toLowerCase() === "f") fullscreen();
+    });
+    let touchStartX = null;
+    let touchStartY = null;
+    let lastTouchAt = 0;
+    viewport.addEventListener("touchstart", event => {
+      touchStartX = event.changedTouches[0].clientX;
+      touchStartY = event.changedTouches[0].clientY;
+    }, {passive: true});
+    viewport.addEventListener("touchend", event => {
+      if (touchStartX === null) return;
+      const dx = event.changedTouches[0].clientX - touchStartX;
+      const dy = event.changedTouches[0].clientY - touchStartY;
+      lastTouchAt = Date.now();
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) dx < 0 ? next() : previous();
+      else if (Math.abs(dx) < 12 && Math.abs(dy) < 12) event.changedTouches[0].clientX < innerWidth / 2 ? previous() : next();
+      touchStartX = null;
+      touchStartY = null;
+    }, {passive: true});
+    viewport.addEventListener("touchcancel", () => { touchStartX = null; touchStartY = null; }, {passive: true});
+    viewport.addEventListener("click", event => {
+      if (Date.now() - lastTouchAt < 500 || event.target.closest("button, a")) return;
+      event.clientX < innerWidth / 2 ? previous() : next();
+    });
+    let wheelAt = 0;
+    window.addEventListener("wheel", event => {
+      if (Date.now() - wheelAt < 650 || Math.abs(event.deltaY) < 18) return;
+      wheelAt = Date.now();
+      event.deltaY > 0 ? next() : previous();
+    }, {passive: true});
+    let hideControls;
+    function revealControls() {
+      document.body.classList.add("controls-visible");
+      clearTimeout(hideControls);
+      hideControls = setTimeout(() => document.body.classList.remove("controls-visible"), 1800);
+    }
+    document.addEventListener("mousemove", revealControls);
+    window.addEventListener("resize", resize);
+    show(slideIndex);
+    resize();
+    revealControls();
+  </script>
+</body>
+</html>

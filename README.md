@@ -2,6 +2,10 @@
 
 一套可独立安装的 Agent Skill：把 Super AI Lab 头马例会的已确认会单、角色接龙或流程表，做成可直接在浏览器投屏的中文 HTML 串场 PPT。
 
+默认采用已认可的**舒文深蓝金色 AI 机器人版**：红色贝雷帽、金色话筒、暖白大字与深蓝舞台。金麦封面、持麦机器人、点评机器人三张背景已随包提供；生成后是一份可离线打开的 HTML，不需要再寻找历史例会文件。此前的蓝红配色保留为 `--style classic`。
+
+![舒文版机器人背景](assets/shuwen/opening.jpg)
+
 俱乐部原名为明源云 AI Lab。新材料使用 Super AI Lab头马俱乐部，历史材料保留当时名称；仓库名与 Skill 标识 `mingyuan-toastmasters-run-ppt` 保持不变，已有安装和调用方式继续可用。
 
 ## 能独立完成什么
@@ -10,7 +14,7 @@
 
 1. 把会单或角色接龙整理成 `meeting.json`；
 2. 校验日期、时间轴、角色、演讲与点评对应关系；
-3. 从随包 Starter 生成固定 `1920x1080` 的 HTML PPT；
+3. 从随包舒文机器人模板生成固定 `1920x1080` 的单文件 HTML PPT；
 4. 检查 JavaScript、页数、导航、资源路径和未确认占位符；
 5. 在浏览器中完成关键页面视觉检查。
 
@@ -51,6 +55,7 @@ git clone https://github.com/FelixMaofei/mingyuan-toastmasters-run-ppt.git \
 
 ```text
 用 $mingyuan-toastmasters-run-ppt 根据这份会单制作一份可离线打开的 Super AI Lab 串场 HTML PPT。
+使用舒文深蓝金色 AI 机器人版。
 缺失信息请一次性列出，不要编造。
 ```
 
@@ -64,6 +69,8 @@ python3 scripts/check_run_ppt.py run-ppt/example.html
 
 打开 `run-ppt/example.html` 即可投屏。支持方向键、空格、Page Up/Down、Home/End、点击、滑动、滚轮和全屏。
 
+机器人版默认隐藏各环节时间范围，封面仍显示会议起止时间；需要显示时，在 `meeting.json` 设置 `"show_schedule": true`。完整时间轴始终保留并校验。旧款式可运行 `python3 scripts/build_deck.py examples/meeting.example.json run-ppt/classic.html --style classic`。
+
 ## 输入要求
 
 至少需要：俱乐部名称、期次或会议标签、日期、星期、起止时间、主题、地点、会议经理，以及按顺序排列的环节、负责人和时长。备稿演讲必须提供演讲者、标题及对应点评人。
@@ -74,7 +81,10 @@ python3 scripts/check_run_ppt.py run-ppt/example.html
 
 ## 随包内容
 
-- `assets/run-deck-starter.html`：匿名、自包含、无构建步骤的中文 Starter
+- `assets/shuwen-run-deck-starter.html`：舒文机器人版模板
+- `assets/shuwen/`：金麦、持麦机器人、点评机器人三张品牌背景
+- `references/shuwen-robot.md`：机器人版布局、复用规则与素材范围
+- `assets/run-deck-starter.html`：保留的经典蓝红配色模板
 - `examples/meeting.example.json`：完整匿名例会示例
 - `references/meeting-input-contract.md`：会议 JSON 输入契约
 - `references/deck-standards.md`：Super AI Lab 例会内容与流程标准
@@ -89,6 +99,8 @@ Python 3.10+ 为必需；Node.js 仅用于可选的 JavaScript 语法检查。�
 
 仓库不含真实会员名单、联系方式、会议链接、付款或会籍数据、内部会单、历史成品、API 凭据及本机绝对路径。
 
-仓库不分发 Toastmasters International、Super AI Lab 或明源云官方 Logo。上述名称与标识属于各自权利人。本项目是社区制作工具，不代表任何组织的官方背书。MIT License 只覆盖本仓库的原创代码和文档，不授予任何商标或第三方素材权利。
+舒文版三张背景来自已确认的俱乐部串场素材，保留原有 Toastmasters Logo 与 Super AI Lab 字样，用于本俱乐部演示；旧款 `classic` 模板为纯文字身份。背景不含历史期次、人名、会员照片或二维码。详细范围见 [舒文版素材说明](references/shuwen-robot.md)。
+
+上述名称与标识属于各自权利人。本项目是社区制作工具，不代表任何组织的官方背书。MIT License 只覆盖本仓库的原创代码和文档，不覆盖背景中的第三方素材、商标、Logo或字体，不授予相应权利。原成品使用的外部字体未随包分发。
 
 公开分享真实会议文件前，请先移除非必要联系方式、在线会议 ID、付款信息和内部评价。

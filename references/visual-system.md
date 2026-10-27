@@ -1,5 +1,9 @@
 # Visual System for Super AI Lab Run Decks
 
+## Style selection
+
+The default is the approved **舒文深蓝金机器人版**. Read [shuwen-robot.md](shuwen-robot.md) for its backgrounds, left-text/right-character layout, colors, and schedule visibility. The rules below describe the previous **classic** style (`--style classic`); do not apply its light cards, AI lattice, or serif headline to the robot template. Fixed-stage and QA requirements apply to both.
+
 ## Visual thesis
 
 Combine Toastmasters-informed blue and maroon anchors with warm paper, precise geometry, and restrained AI/circuit details. The deck should feel professional, welcoming, and current—not like a generic neon dashboard.
@@ -45,7 +49,7 @@ Alternate dark transition slides with light content slides when density rises.
 ## QA checklist
 
 - File opens from `file://` without a build step.
-- All assets are relative, exist, and stay inside the deck folder.
+- All assets are embedded or relative, exist, and stay inside the deck folder. Generated robot decks embed the three backgrounds.
 - Slide count matches the rendered `.slide` count.
 - Every current correction appears and no old meeting residue remains.
 - No unresolved placeholder is visible.

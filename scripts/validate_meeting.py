@@ -161,6 +161,9 @@ def validate(data: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
     if not isinstance(include_rules, bool):
         errors.append("include_standard_rules must be a boolean")
 
+    if "show_schedule" in result and not isinstance(result["show_schedule"], bool):
+        errors.append("show_schedule must be a boolean")
+
     placeholder_paths = find_placeholder_paths(result)
     if placeholder_paths:
         errors.append("unresolved placeholder marker(s) found at: " + ", ".join(placeholder_paths))

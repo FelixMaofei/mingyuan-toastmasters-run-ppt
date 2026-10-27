@@ -17,6 +17,8 @@ Use one UTF-8 JSON object as meeting truth. See `examples/meeting.example.json` 
 
 Optional display fields include `word_of_day`, `slogan`, `timezone`, `quote`, and `include_standard_rules`. Omit an optional module cleanly rather than inserting a placeholder.
 
+`show_schedule` is an optional boolean. In the default `shuwen` robot style it defaults to `false`, keeping exact timing in the JSON while hiding schedule labels on projection. Set it to `true` when visible timing is requested. The `classic` style keeps its existing visible timing.
+
 ## Section and row shape
 
 Each section contains:

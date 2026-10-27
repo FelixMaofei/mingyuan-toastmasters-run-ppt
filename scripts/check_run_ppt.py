@@ -334,7 +334,13 @@ def check(path: Path) -> dict:
     known_club = "superailab" in compact_text or "明源" in text or bool(re.search(r"mingyuan\s+.*?toastmasters", lowered_text))
     if not known_club or not ("头马" in text or "toastmasters" in lowered_text):
         issues.append("Super AI Lab Toastmasters or historical Mingyuan club identity not found")
-    unresolved_hits = [marker for marker in UNRESOLVED_MARKERS if marker in text]
+    # Binary image/font payloads may coincidentally contain words such as TBD.
+    # Keep all ordinary HTML/JS text (and text-bearing SVG data) in this check.
+    content_text = re.sub(
+        r"data:(?:image/(?:png|jpe?g|gif|webp|avif)|font/[\w.+-]+);base64,[A-Za-z0-9+/=]+",
+        "", text, flags=re.I,
+    )
+    unresolved_hits = [marker for marker in UNRESOLVED_MARKERS if marker in content_text]
     if unresolved_hits:
         issues.append("Unresolved marker(s) found: " + ", ".join(unresolved_hits))
 

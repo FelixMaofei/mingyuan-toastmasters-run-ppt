@@ -1,6 +1,6 @@
 ---
 name: mingyuan-toastmasters-run-ppt
-description: Create polished, fixed-stage Chinese HTML run decks for Super AI Lab Toastmasters meetings from confirmed agendas, role relays, screenshots, PDFs, or PPTX files. Use for Super AI Lab 串场PPT、明源云串场PPT、开场PPT、例会投屏 or 会单转HTML演示.
+description: Create offline Chinese HTML transition decks for Super AI Lab Toastmasters from confirmed agendas, role relays, PDFs, or PPTX. Use for 串场PPT、舒文版串场、AI机器人版、开场PPT or 例会投屏; includes the approved navy-gold robot template.
 ---
 
 # Super AI Lab Toastmasters Run PPT
@@ -15,9 +15,17 @@ Turn verified Super AI Lab Toastmasters meeting facts into a directly usable bro
 
 1. Resolve the Skill directory as the folder containing this `SKILL.md`; never hard-code an installation path.
 2. Do not require another Skill or a private historical deck. Optional PDF, PPTX, OCR, image, or frontend tools may improve extraction or styling when available.
-3. Use `assets/run-deck-starter.html` as the tested implementation base. Do not deliver the unchanged starter.
+3. Default to the bundled **舒文深蓝金机器人版** (`assets/shuwen-run-deck-starter.html`). Use `--style classic` only when the user requests the previous blue/maroon style or needs a text-only brand identity. Preserve an explicitly selected style when editing an existing deck. Do not deliver an unchanged starter.
 4. Write the meeting truth to `meeting.json`; do not repair conflicting facts only inside HTML.
-5. Keep all output under the user's current meeting project, normally `run-ppt/`, with relative assets only.
+5. Keep all output under the user's current meeting project, normally `run-ppt/`, with relative or embedded assets only.
+
+## 舒文机器人版
+
+When the user says “舒文版串场”, “AI 机器人那版”, or “深蓝金色那版”, use this Skill's bundled template; do not route to `super-ai-agenda-shuwen`, which makes agenda images.
+
+Read [references/shuwen-robot.md](references/shuwen-robot.md) for the approved layout and background mapping. It preserves the red-beret robot, gold microphone, dark navy stage, cream text, and left-text/right-character composition from the approved historical design. All three backgrounds are included; no private historical file is needed.
+
+Keep the complete timeline in `meeting.json`. The robot design hides schedule labels on screen by default; set `show_schedule: true` only when time ranges should be visible. Do not remove timing facts to hide them. The bundled backgrounds include Super AI Lab branding and are for this club, not a brand-neutral template.
 
 ## Input Gate
 
@@ -58,12 +66,12 @@ An explicit user correction confirms that specific change: update `meeting.json`
        /absolute/path/to/run-ppt/<meeting-slug>.html
      ```
 
-   - The generator creates a fixed `1920x1080` HTML deck with cover, real section changes, role slides, prepared-speech slides, standard rule cards when requested, closing, navigation, progress, fullscreen, touch support, and versioned local state.
+   - The generator creates a fixed `1920x1080` HTML deck with cover, real section changes, role slides, prepared-speech slides, standard rule pages when requested, closing, navigation, progress, fullscreen, touch support, and versioned local state. The robot backgrounds are embedded into the generated HTML, so it can be moved and opened as one offline file.
    - When materially revising an existing deck, increment `--version` and use `--force` to replace the intended output. This refreshes its browser storage key without changing the confirmed meeting facts.
 
 4. **Apply meeting-specific design**
    - Read `references/deck-standards.md` and `references/visual-system.md`.
-   - Keep the generated baseline when the user needs a fast usable version. For normal mode, refine its visual cue, section rhythm, supplied images, and special content without changing confirmed facts.
+   - Preserve the selected visual system. Refine section rhythm, supplied images, and special content when needed without changing confirmed facts or replacing the approved robot with a new character.
    - Dense brochure pages should normally remain source images; do not manually rebuild them unless editable text is requested.
 
 5. **Verify**
@@ -86,7 +94,7 @@ When the deck is needed immediately, ship the validated generated baseline first
 - Keep operational handoff scripts off visible slides unless presenter notes are explicitly requested.
 - Preserve special segments from the agenda; do not flatten them into a generic Toastmasters flow.
 - Do not turn a normal run deck into a recruitment brochure.
-- Do not distribute or redraw official Logos. If the user supplies an authorized local Logo, keep it as a relative asset inside the output package; otherwise use text-only identity.
+- The bundled robot backgrounds already contain the club wordmark and Toastmasters Logo; do not add another Logo over them. Their inclusion does not grant trademark rights. See the asset scope in `references/shuwen-robot.md`; the classic template remains text-only.
 - Keep the ordinary visual tone professional, warm, energetic, and AI-aware without becoming a generic neon-tech template.
 
 ## Output Contract

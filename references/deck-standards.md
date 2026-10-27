@@ -47,7 +47,7 @@ The bundled generator can add these cards after a row with `kind: "rules"`:
 ## Timing
 
 - Use the current declared window; `19:30-21:30` is common but not mandatory.
-- Display `start - end（duration）`, for example `19:53 - 20:00（7分钟）`.
+- Keep the complete timeline in meeting JSON. The robot style hides schedule labels by default; `show_schedule: true` makes them visible. When shown, use `start - end（duration）`, for example `19:53 - 20:00（7分钟）`.
 - Use agenda-provided duration first and keep the complete timeline continuous.
 - Do not duplicate time in several visual blocks on the same slide.
 
