@@ -163,6 +163,8 @@ def validate(data: dict[str, Any]) -> tuple[dict[str, Any], list[str]]:
 
     if "show_schedule" in result and not isinstance(result["show_schedule"], bool):
         errors.append("show_schedule must be a boolean")
+    elif result.get("show_schedule", True) is not True:
+        errors.append("Formal agenda slides require show_schedule=true (start, end, duration)")
 
     placeholder_paths = find_placeholder_paths(result)
     if placeholder_paths:

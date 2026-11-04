@@ -20,7 +20,7 @@
 - 正文位于左侧约54%，机器人保留在右侧。以大标题、角色姓名、少量说明建立层次，不用白色大卡片盖住机器人。
 - 角色页每页一个环节；标题约110–134px，姓名约88px。较长标题换行或适当缩小，规则用左侧短列表，不横铺四张卡片。
 - 封面以主题和今日一词为主。阶段页只呈现本场真实阶段；不加入解释模板或制作过程的文字。
-- 默认隐藏各环节时间范围，封面仍显示会议起止时间；`show_schedule: true` 可展示来自本场会单的时间。隐藏显示不会改变会议时长、顺序、休息或串场计算。
+- 每个正式环节必须显示“开始–结束（时长）”，包括合影与休息；默认 `show_schedule: true`。旧数据中的 false 必须改为 true。封面显示整场时间，章节页及补充规则页不另计时，隐藏串场只参与时间计算。
 - 历史会长致辞、会员权益、费用、照片、投票二维码均不作为常驻内容。当前例会明确需要时，再取本场确认的资料。
 - 原成品曾嵌入阿里妈妈数黑体；本包未分发该字体，使用系统中文黑体回退。不同设备字形略有差异，交付前检查长标题和姓名。
 
@@ -28,7 +28,7 @@
 
 ```bash
 python3 <skill-dir>/scripts/build_deck.py meeting.json run-ppt/meeting.html --style shuwen
-python3 <skill-dir>/scripts/check_run_ppt.py run-ppt/meeting.html
+python3 <skill-dir>/scripts/check_run_ppt.py run-ppt/meeting.html --meeting meeting.json
 ```
 
 `shuwen` 是默认样式。生成器把三张背景嵌入HTML；交付时无需额外图片目录。使用自定义 `--starter` 时，另行检查它引用的本地资源是否随成品携带。

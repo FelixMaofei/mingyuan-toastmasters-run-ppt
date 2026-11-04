@@ -5,6 +5,8 @@ description: Create offline Chinese HTML transition decks for Super AI Lab Toast
 
 # Super AI Lab Toastmasters Run PPT
 
+Local adaptation updated: 2026-11-04. Formal agenda slides show start, end, and duration by default.
+
 Use `Super AI Lab头马俱乐部` for new materials. Recognize `明源云` / `Mingyuan` as the former name and preserve the name used in historical meetings, source quotations, and existing deliverables. A name change does not establish the venue, membership terms, fees, or meeting number; use the current confirmed facts. Keep the Skill identifier `mingyuan-toastmasters-run-ppt` for existing installations.
 
 ## Purpose
@@ -25,7 +27,7 @@ When the user says “舒文版串场”, “AI 机器人那版”, or “深蓝
 
 Read [references/shuwen-robot.md](references/shuwen-robot.md) for the approved layout and background mapping. It preserves the red-beret robot, gold microphone, dark navy stage, cream text, and left-text/right-character composition from the approved historical design. All three backgrounds are included; no private historical file is needed.
 
-Keep the complete timeline in `meeting.json`. The robot design hides schedule labels on screen by default; set `show_schedule: true` only when time ranges should be visible. Do not remove timing facts to hide them. The bundled backgrounds include Super AI Lab branding and are for this club, not a brand-neutral template.
+Keep the complete timeline in `meeting.json`. Every formal agenda slide must visibly show start, end, and duration, for example `19:53 - 20:00（7分钟）`, including speeches, evaluations, reports, and photo/break slides. `show_schedule` defaults to `true`; old inputs with `false` must be updated. Cover/section/closing decorations and supplementary rule cards are not separate timed activities; hidden handoffs stay off-screen. Keep time labels when customizing a renderer, and inspect their layout with long titles and names. The bundled backgrounds include Super AI Lab branding and are for this club, not a brand-neutral template.
 
 ## Input Gate
 
@@ -78,9 +80,10 @@ An explicit user correction confirms that specific change: update `meeting.json`
    - Run:
 
      ```bash
-     python3 <skill-dir>/scripts/check_run_ppt.py /absolute/path/to/run-ppt/<meeting-slug>.html
+     python3 <skill-dir>/scripts/check_run_ppt.py /absolute/path/to/run-ppt/<meeting-slug>.html --meeting /absolute/path/to/meeting.json
      ```
 
+   - The check executes the slide renderer and compares every formal slide’s visible-text markup against the validated meeting timeline. Missing labels, wrong times, or missing/reordered slides fail. Node.js is required for this check; it does not replace visual QA for clipping, overlap, or CSS visibility.
    - Inspect at `1280x720` and one narrow viewport: cover, densest slide, one speech slide, one role slide, and closing.
    - Check Arrow keys, Space, Page Up/Down, Home/End, click, fullscreen, page count, and progress.
 

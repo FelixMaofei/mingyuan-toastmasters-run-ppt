@@ -17,7 +17,7 @@ Use one UTF-8 JSON object as meeting truth. See `examples/meeting.example.json` 
 
 Optional display fields include `word_of_day`, `slogan`, `timezone`, `quote`, and `include_standard_rules`. Omit an optional module cleanly rather than inserting a placeholder.
 
-`show_schedule` is an optional boolean. In the default `shuwen` robot style it defaults to `false`, keeping exact timing in the JSON while hiding schedule labels on projection. Set it to `true` when visible timing is requested. The `classic` style keeps its existing visible timing.
+`show_schedule` defaults to `true` in both styles. Formal agenda slides must show start, end, and duration. A legacy `false` value fails validation: update it to `true` before regenerating. Hidden handoffs still affect timing without becoming slides.
 
 ## Section and row shape
 

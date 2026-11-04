@@ -14,6 +14,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
+from check_schedule import check_schedule
+
 
 UNRESOLVED_MARKERS = ["TODO", "TBD", "待替换", "待定", "待确认", "🌺", "{{", "}}"]
 
@@ -261,7 +263,7 @@ def _asset_status(html_path: Path, refs: list[str]) -> tuple[list[str], list[str
     return relative, non_relative, missing, escaping
 
 
-def check(path: Path) -> dict:
+def check(path: Path, meeting_path: Path | None = None) -> dict:
     issues: list[str] = []
     warnings: list[str] = []
     if not path.is_file():
@@ -365,7 +367,11 @@ def check(path: Path) -> dict:
         if not present:
             issues.append(f"Required live-control feature not detected: {feature}")
 
+    schedule = check_schedule(text, meeting_path)
+    issues.extend(schedule["issues"])
+
     return {
+        "schedule_check": schedule,
         "path": str(path.resolve()),
         "ok": not issues,
         "issues": issues,
@@ -388,9 +394,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("html", type=Path)
     parser.add_argument("--json", action="store_true", help="Print JSON only.")
+    parser.add_argument("--meeting", type=Path, help="Validated meeting JSON for full agenda/time comparison")
     args = parser.parse_args()
 
-    result = check(args.html)
+    result = check(args.html, args.meeting)
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
@@ -402,6 +409,7 @@ def main() -> int:
                 f"{result['slide_count']} "
                 f"(data={result['data_slide_count']}, static={result['static_slide_count']})"
             )
+            print(f"formal schedule labels: {result['schedule_check']['checked']}; ok={result['schedule_check']['ok']}")
             print(f"fixed stage: {result['fixed_stage']}")
             print(f"storageKey: {result['storage_key']}")
             node = result["node_check"]

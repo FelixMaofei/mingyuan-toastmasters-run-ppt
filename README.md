@@ -64,12 +64,12 @@ git clone https://github.com/FelixMaofei/mingyuan-toastmasters-run-ppt.git \
 ```bash
 python3 scripts/validate_meeting.py examples/meeting.example.json
 python3 scripts/build_deck.py examples/meeting.example.json run-ppt/example.html
-python3 scripts/check_run_ppt.py run-ppt/example.html
+python3 scripts/check_run_ppt.py run-ppt/example.html --meeting examples/meeting.example.json
 ```
 
 打开 `run-ppt/example.html` 即可投屏。支持方向键、空格、Page Up/Down、Home/End、点击、滑动、滚轮和全屏。
 
-机器人版默认隐藏各环节时间范围，封面仍显示会议起止时间；需要显示时，在 `meeting.json` 设置 `"show_schedule": true`。完整时间轴始终保留并校验。旧款式可运行 `python3 scripts/build_deck.py examples/meeting.example.json run-ppt/classic.html --style classic`。
+本地优化版（2026-11-04）：每个正式环节默认且必须显示开始、结束及时长，含合影休息；`show_schedule` 默认为 true，旧数据 false 会报错。用 `check_run_ppt.py 成品.html --meeting meeting.json` 逐项核对页面生成的时间文字。完整时间轴始终保留并校验。旧款式可运行 `python3 scripts/build_deck.py examples/meeting.example.json run-ppt/classic.html --style classic`。
 
 ## 输入要求
 
@@ -93,7 +93,7 @@ python3 scripts/check_run_ppt.py run-ppt/example.html
 - `scripts/build_deck.py`：从 JSON 生成可用 HTML 初版
 - `scripts/check_run_ppt.py`：成品结构、脚本、资源和控制检查
 
-Python 3.10+ 为必需；Node.js 仅用于可选的 JavaScript 语法检查。浏览器视觉检查需要本机可用的浏览器或自动化工具。
+Python 3.10+ 为必需；Node.js 用于 JavaScript 语法及每个正式环节时间显示的必需检查。浏览器视觉检查需要本机可用的浏览器或自动化工具。
 
 ## 隐私与商标
 

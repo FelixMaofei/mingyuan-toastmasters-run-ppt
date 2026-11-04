@@ -203,6 +203,8 @@ def build_html(
     style = style or ("shuwen" if is_shuwen else "classic")
     if "show_schedule" in meeting and not isinstance(meeting["show_schedule"], bool):
         raise ValueError("show_schedule must be a boolean")
+    if meeting.get("show_schedule", True) is not True:
+        raise ValueError("Formal agenda slides require show_schedule=true")
     if is_shuwen and "superailab" not in re.sub(r"\s+", "", str(meeting["club_name"])).casefold():
         raise ValueError("Shuwen backgrounds carry Super AI Lab branding; use --style classic for historical club names")
     slides = build_slides(meeting)
@@ -226,7 +228,7 @@ def build_html(
         "time": meeting["meeting_time"],
         "location": meeting["location"],
         "manager": meeting["meeting_manager"],
-        "show_schedule": meeting.get("show_schedule", not is_shuwen),
+        "show_schedule": meeting.get("show_schedule", True),
     }
 
     result = starter
